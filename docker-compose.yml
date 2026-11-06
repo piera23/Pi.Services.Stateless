@@ -1,0 +1,12 @@
+services:
+  pi-services-stateless:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pi-services-stateless
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+    restart: unless-stopped

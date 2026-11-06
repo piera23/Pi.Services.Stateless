@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pi.Services.Stateless - Low-Code Form Builder & Platform Engine</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    :root {
+      --background: #080d1a;
+      --foreground: #f8fafc;
+      --card: #0f172a;
+      --card-hover: #1e293b;
+      --border: #1e293b;
+      --muted-foreground: #94a3b8;
+      --primary: #38bdf8;
+      --primary-hover: #0284c7;
+      --primary-foreground: #080d1a;
+      --success: #34d399;
+      --danger: #f87171;
+      --warning: #fbbf24;
+      --purple: #a855f7;
+    }
+    .active-tab {
+      background: var(--primary);
+      color: var(--primary-foreground);
+      font-weight: 700;
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0b1120; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #334155; }
+  </style>
+</head>
+<body class="bg-[var(--background)] text-[var(--foreground)] font-sans antialiased min-h-screen p-3 md:p-6">
+
+  <!-- Header & Hero -->
+  <header class="max-w-7xl mx-auto mb-6">
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
+      <div class="absolute -right-20 -top-20 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute right-60 -bottom-20 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-400 border border-sky-500/30 mb-3">
+            <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
+            Nuova Suite Ex-Novo • .NET 9 • 100% Stateless • Zero-DB Native
+          </div>
+          <h1 class="text-3xl md:text-5xl font-black tracking-tight text-white mb-2">
+            Pi.<span class="text-sky-400">Services</span>.Stateless
+          </h1>
+          <p class="text-[var(--muted-foreground)] text-sm md:text-base max-w-3xl leading-relaxed">
+            Il motore universale per <strong>creare la tua piattaforma personalizzata</strong>: 
+            Compositore <strong>Form Low-Code con 40+ componenti web moderni</strong> ed esportazione DDL su qualsiasi database (PostgreSQL, SQL Server, MySQL, SQLite), 
+            <strong>Workflow Designer libero</strong> a stati, Gestione Fascicoli e Profilatura dinamica.
+          </p>
+        </div>
+
+        <!-- Quick Status Pills -->
+        <div class="flex flex-wrap lg:flex-col gap-2.5 bg-slate-950/60 p-4 rounded-xl border border-slate-800/80">
+          <div class="flex items-center gap-2 text-xs">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span class="text-slate-400">Componenti Web:</span>
+            <strong class="text-white">40+ Tipologie</strong>
+          </div>
+          <div class="flex items-center gap-2 text-xs">
+            <span class="w-2 h-2 rounded-full bg-sky-400"></span>
+            <span class="text-slate-400">Dialetti DB:</span>
+            <strong class="text-white">PG / MSSQL / MySQL / SQLite</strong>
+          </div>
+          <div class="flex items-center gap-2 text-xs">
+            <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+            <span class="text-slate-400">Workflow:</span>
+            <strong class="text-white">100% Libero a Stati</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="flex flex-wrap gap-2 mt-6 pt-6 border-t border-slate-800/80">
+        <button onclick="switchTab('form-builder')" id="btn-tab-form-builder" class="px-4 py-2 rounded-xl text-xs font-bold transition-all active-tab">
+          🎨 Form Generator Low-Code (40+ Controlli Web)
+        </button>
+        <button onclick="switchTab('workflow-builder')" id="btn-tab-workflow-builder" class="px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-900 text-slate-300 hover:text-white hover:bg-slate-800">
+          ⚡ Workflow Designer Libero
+        </button>
+        <button onclick="switchTab('overview')" id="btn-tab-overview" class="px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-900 text-slate-300 hover:text-white hover:bg-slate-800">
+          📚 Architettura & Servizi
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto space-y-6">
+
+    <!-- ========================================================================= -->
+    <!-- TAB 1: FORM GENERATOR LOW-CODE CON 40+ COMPONENTI WEB -->
+    <!-- ========================================================================= -->
+    <section id="tab-form-builder" class="tab-content space-y-6">
+
+      <!-- Form Builder Workspace (Grid 12 cols: 4 cols Palette, 8 cols Live Preview) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Left: 40+ Components Library Palette -->
+        <div class="lg:col-span-5 bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 space-y-5">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div>
+              <h2 class="text-base font-bold text-white flex items-center gap-2">
+                <span>Libreria Componenti Web</span>
+                <span class="text-[10px] px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/30">40+ Tipi</span>
+              </h2>
+              <p class="text-xs text-[var(--muted-foreground)]">Clicca su un componente per inserirlo nella maschera</p>
+            </div>
+            <button onclick="resetDefaultForm()" class="text-[11px] text-slate-400 hover:text-white underline">Ripristina Demo</button>
+          </div>
+
+          <!-- Component Categories Accordion / List -->
+          <div class="space-y-4 max-h-[620px] overflow-y-auto pr-1">
+
+            <!-- 1. Testo Standard & Avanzato -->
+            <div>
+              <div class="text-[10px] font-bold uppercase tracking-wider text-sky-400 mb-1.5 flex items-center gap-1.5">
+                <span>🔤</span> 1. Testo Standard & Avanzato
+              </div>
+              <div class="grid grid-cols-2 gap-1.5 text-xs">
+                <button onclick="addField('Text')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-sky-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-sky-400 font-bold">T</span> Testo Semplice
+                </button>
+                <button onclick="addField('TextArea')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-sky-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-sky-400 font-bold">¶</span> Area di Testo
+                </button>
+                <button onclick="addField('Email')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-sky-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-sky-400 font-bold">✉</span> Email RFC
+                </button>
+                <button onclick="addField('Password')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-sky-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-sky-400 font-bold">🔒</span> Password
+                </button>
+                <button onclick="addField('Phone')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-sky-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-sky-400 font-bold">📞</span> Telefono Int.
+                </button>
+                <button onclick="addField('Url')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-sky-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-sky-400 font-bold">🔗</span> Indirizzo Web
+                </button>
+                <button onclick="addField('RichText')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-sky-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-sky-400 font-bold">📝</span> HTML WYSIWYG
+                </button>
+                <button onclick="addField('Markdown')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-sky-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-sky-400 font-bold">Ⓜ️</span> Editor Markdown
+                </button>
+              </div>
+            </div>
+
+            <!-- 2. Dati Personali, Finanziari & Geografici -->
+            <div>
+              <div class="text-[10px] font-bold uppercase tracking-wider text-emerald-400 mb-1.5 flex items-center gap-1.5">
+                <span>💳</span> 2. Dati Personali, Finanze & Geolocation
+              </div>
+              <div class="grid grid-cols-2 gap-1.5 text-xs">
+                <button onclick="addField('FiscalCode')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-emerald-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-emerald-400 font-bold">🆔</span> Codice Fiscale
+                </button>
+                <button onclick="addField('IBAN')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-emerald-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-emerald-400 font-bold">🏦</span> IBAN Bancario
+                </button>
+                <button onclick="addField('Currency')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-emerald-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-emerald-400 font-bold">💶</span> Importo Valuta
+                </button>
+                <button onclick="addField('Location')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-emerald-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-emerald-400 font-bold">📍</span> Indirizzo / GPS
+                </button>
+              </div>
+            </div>
+
+            <!-- 3. Numeri, Metriche & Rating -->
+            <div>
+              <div class="text-[10px] font-bold uppercase tracking-wider text-amber-400 mb-1.5 flex items-center gap-1.5">
+                <span>⭐</span> 3. Numeri, Metriche & Rating
+              </div>
+              <div class="grid grid-cols-2 gap-1.5 text-xs">
+                <button onclick="addField('Number')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-amber-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-amber-400 font-bold">#</span> Intero / Q.tà
+                </button>
+                <button onclick="addField('Decimal')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-amber-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-amber-400 font-bold">.00</span> Decimale Preciso
+                </button>
+                <button onclick="addField('Percentage')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-amber-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-amber-400 font-bold">%</span> Percentuale
+                </button>
+                <button onclick="addField('Slider')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-amber-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-amber-400 font-bold">━●━</span> Slider Range
+                </button>
+                <button onclick="addField('Rating')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-amber-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-amber-400 font-bold">★</span> Stelle (1-5)
+                </button>
+                <button onclick="addField('LikertScale')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-amber-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-amber-400 font-bold">📊</span> Scala Likert (1-7)
+                </button>
+                <button onclick="addField('Nps')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-amber-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2 col-span-2">
+                  <span class="text-amber-400 font-bold">🏆</span> NPS Net Promoter Score (0-10)
+                </button>
+              </div>
+            </div>
+
+            <!-- 4. Date & Calendari -->
+            <div>
+              <div class="text-[10px] font-bold uppercase tracking-wider text-rose-400 mb-1.5 flex items-center gap-1.5">
+                <span>📅</span> 4. Date & Calendari
+              </div>
+              <div class="grid grid-cols-2 gap-1.5 text-xs">
+                <button onclick="addField('Date')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-rose-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-rose-400 font-bold">📆</span> Solo Data
+                </button>
+                <button onclick="addField('Time')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-rose-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-rose-400 font-bold">⏰</span> Solo Ora (hh:mm)
+                </button>
+                <button onclick="addField('DateTime')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-rose-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-rose-400 font-bold">🗓️</span> Data e Ora
+                </button>
+                <button onclick="addField('DateRange')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-rose-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-rose-400 font-bold">↔</span> Intervallo Date
+                </button>
+              </div>
+            </div>
+
+            <!-- 5. Scelte & Selezione -->
+            <div>
+              <div class="text-[10px] font-bold uppercase tracking-wider text-purple-400 mb-1.5 flex items-center gap-1.5">
+                <span>🔘</span> 5. Scelte & Selettori
+              </div>
+              <div class="grid grid-cols-2 gap-1.5 text-xs">
+                <button onclick="addField('Select')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-purple-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-purple-400 font-bold">▼</span> Menu Tendina
+                </button>
+                <button onclick="addField('MultiSelect')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-purple-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-purple-400 font-bold">🏷️</span> Multi-Select Tag
+                </button>
+                <button onclick="addField('CascadingSelect')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-purple-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-purple-400 font-bold">🪜</span> Select a Cascata
+                </button>
+                <button onclick="addField('Radio')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-purple-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-purple-400 font-bold">◉</span> Radio Esclusivo
+                </button>
+                <button onclick="addField('Checkbox')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-purple-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-purple-400 font-bold">☑</span> Checkbox Singola
+                </button>
+                <button onclick="addField('CheckboxGroup')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-purple-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-purple-400 font-bold">☑☑</span> Gruppo Checkbox
+                </button>
+                <button onclick="addField('Switch')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-purple-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-purple-400 font-bold">⊘</span> Switch Toggle
+                </button>
+                <button onclick="addField('TagInput')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-purple-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-purple-400 font-bold">#</span> Tag Chips Input
+                </button>
+              </div>
+            </div>
+
+            <!-- 6. Avanzati, Codici, Firma & Media -->
+            <div>
+              <div class="text-[10px] font-bold uppercase tracking-wider text-pink-400 mb-1.5 flex items-center gap-1.5">
+                <span>🎨</span> 6. Avanzati, Codici, Firma & Media
+              </div>
+              <div class="grid grid-cols-2 gap-1.5 text-xs">
+                <button onclick="addField('ColorPicker')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-pink-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-pink-400 font-bold">🎨</span> Selettore Colore
+                </button>
+                <button onclick="addField('Signature')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-pink-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-pink-400 font-bold">✍</span> Firma Grafica
+                </button>
+                <button onclick="addField('ImageUpload')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-pink-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-pink-400 font-bold">🖼️</span> Upload Immagine
+                </button>
+                <button onclick="addField('File')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-pink-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-pink-400 font-bold">📎</span> Allegato File
+                </button>
+                <button onclick="addField('AudioRecorder')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-pink-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-pink-400 font-bold">🎙️</span> Registratore Audio
+                </button>
+                <button onclick="addField('Otp')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-pink-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-pink-400 font-bold">🔢</span> Caselle Codice OTP
+                </button>
+                <button onclick="addField('BarcodeQrCode')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-pink-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-pink-400 font-bold">🏁</span> Barcode / QR Code
+                </button>
+                <button onclick="addField('JsonEditor')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-pink-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-pink-400 font-bold">{ }</span> Editor JSON
+                </button>
+              </div>
+            </div>
+
+            <!-- 7. Dati Complessi & Sub-Form -->
+            <div>
+              <div class="text-[10px] font-bold uppercase tracking-wider text-cyan-400 mb-1.5 flex items-center gap-1.5">
+                <span>📑</span> 7. Dati Complessi & Sub-Form
+              </div>
+              <div class="grid grid-cols-2 gap-1.5 text-xs">
+                <button onclick="addField('DataGrid')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-cyan-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-cyan-400 font-bold">▦</span> Tabella DataGrid
+                </button>
+                <button onclick="addField('RepeatableSection')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 hover:border-cyan-500/40 text-left font-medium text-slate-200 transition-all flex items-center gap-2">
+                  <span class="text-cyan-400 font-bold">🔁</span> Sezione Ripetibile
+                </button>
+              </div>
+            </div>
+
+            <!-- 8. Layout, Indicatori & Sicurezza -->
+            <div>
+              <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1.5 flex items-center gap-1.5">
+                <span>📐</span> 8. Layout, Indicatori & Sicurezza
+              </div>
+              <div class="grid grid-cols-2 gap-1.5 text-xs">
+                <button onclick="addField('SectionHeader')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 text-left font-medium text-slate-300 transition-all flex items-center gap-2">
+                  <span class="text-slate-400 font-bold">§</span> Intestazione Sezione
+                </button>
+                <button onclick="addField('InfoAlert')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 text-left font-medium text-slate-300 transition-all flex items-center gap-2">
+                  <span class="text-slate-400 font-bold">ℹ</span> Box Informativo
+                </button>
+                <button onclick="addField('Divider')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 text-left font-medium text-slate-300 transition-all flex items-center gap-2">
+                  <span class="text-slate-400 font-bold">―</span> Separatore
+                </button>
+                <button onclick="addField('ProgressStep')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 text-left font-medium text-slate-300 transition-all flex items-center gap-2">
+                  <span class="text-slate-400 font-bold">🏁</span> Barra di Progresso
+                </button>
+                <button onclick="addField('Captcha')" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800/80 text-left font-medium text-slate-300 transition-all flex items-center gap-2 col-span-2">
+                  <span class="text-slate-400 font-bold">🤖</span> Verifica Anti-Bot Captcha
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Configuration & Field Order List -->
+          <div class="border-t border-slate-800 pt-3">
+            <div class="flex items-center justify-between mb-2">
+              <label class="text-xs font-semibold uppercase tracking-wider text-slate-300">Campi Configurati nella Maschera:</label>
+              <span id="fields-count" class="text-xs font-bold text-sky-400">0</span>
+            </div>
+            <div id="fields-config-list" class="space-y-1.5 max-h-48 overflow-y-auto pr-1"></div>
+          </div>
+        </div>
+
+        <!-- Right: Live Rendered Form Preview -->
+        <div class="lg:col-span-7 bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 md:p-8 space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+            <div>
+              <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                <span>Anteprima Maschera Compilabile</span>
+                <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">Live Render Attivo</span>
+              </h2>
+              <p class="text-xs text-[var(--muted-foreground)]">I controlli web renderizzano e reagiscono interattivamente in tempo reale</p>
+            </div>
+            <button onclick="validateAndSimulate()" class="px-4 py-2 bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs rounded-xl shadow-lg shadow-sky-500/20 transition-all self-start">
+              Simula Validazione Stateless
+            </button>
+          </div>
+
+          <!-- Live Form Elements -->
+          <form id="live-rendered-form" onsubmit="event.preventDefault(); validateAndSimulate();" class="space-y-4 max-h-[700px] overflow-y-auto pr-2">
+            <!-- Dynamically populated by JS -->
+          </form>
+
+          <div id="form-validation-feedback" class="hidden p-3 rounded-xl text-xs font-semibold"></div>
+        </div>
+      </div>
+
+      <!-- BOTTOM: Database Schema & Query Export Section (The User's Choice!) -->
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 md:p-8 space-y-6 shadow-2xl">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+          <div>
+            <div class="inline-flex items-center gap-2 text-xs font-bold text-emerald-400 uppercase tracking-wider mb-1">
+              <span>⚡ Funzione Generazione Database Automatica</span>
+            </div>
+            <h3 class="text-xl font-bold text-white">Esporta Schema e Query per il Tuo Database</h3>
+            <p class="text-xs text-[var(--muted-foreground)]">
+              Il servizio converte la maschera che hai appena composto nello script DDL perfetto per creare la tabella e salvare i dati nel database che decidi tu.
+            </p>
+          </div>
+
+          <!-- Dialect Selector -->
+          <div class="flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800">
+            <span class="text-xs text-slate-400 px-2 font-semibold">Database:</span>
+            <button onclick="setDialect('PostgreSql')" class="dialect-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-sky-500 text-slate-950" data-dialect="PostgreSql">PostgreSQL</button>
+            <button onclick="setDialect('SqlServer')" class="dialect-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-slate-400 hover:text-white" data-dialect="SqlServer">SQL Server</button>
+            <button onclick="setDialect('MySql')" class="dialect-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-slate-400 hover:text-white" data-dialect="MySql">MySQL</button>
+            <button onclick="setDialect('Sqlite')" class="dialect-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-slate-400 hover:text-white" data-dialect="Sqlite">SQLite</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Create Table Script -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-300">1. Script DDL Creazione Tabella (CREATE TABLE)</span>
+              <button onclick="copyToClipboard('code-create-table')" class="text-[11px] text-sky-400 hover:text-sky-300">Copia SQL</button>
+            </div>
+            <pre id="code-create-table" class="bg-slate-950 p-4 rounded-xl text-xs font-mono text-emerald-400 overflow-x-auto border border-slate-800 h-64"></pre>
+          </div>
+
+          <!-- Insert Statement -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-300">2. Query di Inserimento Dati Tipizzata (INSERT INTO)</span>
+              <button onclick="copyToClipboard('code-insert-query')" class="text-[11px] text-sky-400 hover:text-sky-300">Copia Query</button>
+            </div>
+            <pre id="code-insert-query" class="bg-slate-950 p-4 rounded-xl text-xs font-mono text-sky-300 overflow-x-auto border border-slate-800 h-64"></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 2: WORKFLOW DESIGNER LIBERO -->
+    <!-- ========================================================================= -->
+    <section id="tab-workflow-builder" class="tab-content hidden space-y-6">
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 md:p-8 space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+          <div>
+            <h2 class="text-xl font-bold text-white">Workflow Designer Libero a Stati</h2>
+            <p class="text-xs text-[var(--muted-foreground)]">
+              Componi liberamente qualsiasi catena approvativa: aggiungi passi, assegna ruoli preposti e configura le azioni consentite.
+            </p>
+          </div>
+          <button onclick="addWorkflowStep()" class="px-4 py-2 bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs rounded-xl shadow-lg shadow-indigo-500/20 transition-all self-start">
+            + Aggiungi Passo al Flusso
+          </button>
+        </div>
+
+        <!-- Workflow Visual Nodes -->
+        <div id="workflow-nodes-container" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <!-- Dynamically populated by JS -->
+        </div>
+
+        <!-- Workflow Interactive Runner -->
+        <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800/80 pb-4">
+            <div>
+              <div class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Simulatore di Esecuzione Flusso Stateless</div>
+              <div id="wf-runner-prompt" class="text-sm font-bold text-white mt-1">Stato: Pronto ad avviare il flusso</div>
+            </div>
+            <button onclick="restartWorkflowRunner()" class="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg">Riavvia Flusso</button>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3" id="wf-runner-actions">
+            <!-- Dynamically populated actions -->
+          </div>
+
+          <div id="wf-runner-log" class="text-xs font-mono bg-slate-900/60 p-3 rounded-xl text-slate-300 border border-slate-800 space-y-1">
+            <div class="text-slate-500">Log transizioni di stato...</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 3: ARCHITETTURA & DOCUMENTAZIONE SERVIZI -->
+    <!-- ========================================================================= -->
+    <section id="tab-overview" class="tab-content hidden space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- Card 1 -->
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 space-y-3">
+          <div class="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/20 flex items-center justify-center font-bold text-lg">
+            1
+          </div>
+          <h3 class="text-lg font-bold text-white">Pi.FormGenerator</h3>
+          <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">
+            Motore low-code per definire qualsiasi maschera di inserimento. 
+            Include 40+ controlli web, validatore stateless e generatore di schemi SQL DDL per PostgreSQL, SQL Server, MySQL e SQLite.
+          </p>
+          <div class="pt-2 text-xs font-mono text-sky-400">GET/POST /api/forms/*</div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 space-y-3">
+          <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 flex items-center justify-center font-bold text-lg">
+            2
+          </div>
+          <h3 class="text-lg font-bold text-white">Pi.Workflow</h3>
+          <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">
+            Motore a stati per orchestrare qualsiasi iter procedurale. Supporta sia la valutazione pura stateless (<code class="text-indigo-300">evaluate-transition</code>) che istanze gestite nel tempo.
+          </p>
+          <div class="pt-2 text-xs font-mono text-indigo-400">POST /api/workflow/*</div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 space-y-3">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center font-bold text-lg">
+            3
+          </div>
+          <h3 class="text-lg font-bold text-white">Pi.Documents</h3>
+          <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">
+            Gestore fascicoli per istanze e pratiche. Supporta streaming binario di file con calcolo hash <strong>SHA-256</strong> e scambio note istruttorie tra attori.
+          </p>
+          <div class="pt-2 text-xs font-mono text-emerald-400">GET/POST /api/documents/*</div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 space-y-3">
+          <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20 flex items-center justify-center font-bold text-lg">
+            4
+          </div>
+          <h3 class="text-lg font-bold text-white">Pi.Identity</h3>
+          <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">
+            Anagrafica minimale, ruoli RBAC e algoritmo <code class="text-purple-300">ActorResolver</code> che calcola dinamicamente il dirigente o manager dell'autore senza cablaggi statici.
+          </p>
+          <div class="pt-2 text-xs font-mono text-purple-400">GET/POST /api/identity/*</div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 space-y-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center justify-center font-bold text-lg">
+            5
+          </div>
+          <h3 class="text-lg font-bold text-white">Pi.Integrations</h3>
+          <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">
+            Gateway di integrazione per marcatura a protocollo formale e generatore report multi-formato in <strong>PDF</strong>, <strong>Excel (.xlsx)</strong>, <strong>CSV</strong> e <strong>JSON</strong>.
+          </p>
+          <div class="pt-2 text-xs font-mono text-amber-400">POST /api/integrations/*</div>
+        </div>
+
+        <!-- Card 6: Zero DB Guarantee -->
+        <div class="bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-6 space-y-3">
+          <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-400 border border-rose-500/20 flex items-center justify-center font-bold text-lg">
+            🛡️
+          </div>
+          <h3 class="text-lg font-bold text-white">Architettura Ex-Novo</h3>
+          <p class="text-xs text-[var(--muted-foreground)] leading-relaxed">
+            Nessun vincolo con moduli legacy pregressi. Il sistema è un framework orizzontale pronto per consentirti di erigere qualsiasi tipologia di portale o gestionale.
+          </p>
+          <div class="pt-2 text-xs font-mono text-rose-400">Totalmente Autonomo</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Interactive JavaScript Engine -->
+  <script>
+    // Tab Switching
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById('tab-' + tabId).classList.remove('hidden');
+
+      const tabs = ['form-builder', 'workflow-builder', 'overview'];
+      tabs.forEach(t => {
+        const btn = document.getElementById('btn-tab-' + t);
+        if (t === tabId) {
+          btn.className = "px-4 py-2 rounded-xl text-xs font-bold transition-all active-tab";
+        } else {
+          btn.className = "px-4 py-2 rounded-xl text-xs font-bold transition-all bg-slate-900 text-slate-300 hover:text-white hover:bg-slate-800";
+        }
+      });
+    }
+
+    // -------------------------------------------------------------
+    // FORM BUILDER LOW-CODE (40+ COMPONENTI WEB)
+    // -------------------------------------------------------------
+    let currentDialect = 'PostgreSql';
+
+    // Initial default fields showing rich variety
+    let formFields = [
+      { id: 'f_cf', key: 'codice_fiscale', label: 'Codice Fiscale Richiedente', type: 'FiscalCode', required: true },
+      { id: 'f_iban', key: 'iban_accredito', label: 'IBAN di Accredito', type: 'IBAN', required: true },
+      { id: 'f_curr', key: 'importo_richiesto', label: 'Importo Richiesto', type: 'Currency', required: true },
+      { id: 'f_loc', key: 'sede_svolgimento', label: 'Indirizzo Sede / Coordinate GPS', type: 'Location', required: false },
+      { id: 'f_rate', key: 'valutazione_pregressa', label: 'Indice di Gradimento', type: 'Rating', required: false },
+      { id: 'f_nps', key: 'consiglieresti_piattaforma', label: 'Punteggio NPS (Consiglieresti il Servizio?)', type: 'Nps', required: false },
+      { id: 'f_otp', key: 'codice_sicurezza_otp', label: 'Codice di Verifica OTP (SMS)', type: 'Otp', required: true },
+      { id: 'f_sig', key: 'firma_digitale', label: 'Firma Grafica Autografa', type: 'Signature', required: true }
+    ];
+
+    function resetDefaultForm() {
+      formFields = [
+        { id: 'f_cf', key: 'codice_fiscale', label: 'Codice Fiscale Richiedente', type: 'FiscalCode', required: true },
+        { id: 'f_iban', key: 'iban_accredito', label: 'IBAN di Accredito', type: 'IBAN', required: true },
+        { id: 'f_curr', key: 'importo_richiesto', label: 'Importo Richiesto', type: 'Currency', required: true },
+        { id: 'f_loc', key: 'sede_svolgimento', label: 'Indirizzo Sede / Coordinate GPS', type: 'Location', required: false },
+        { id: 'f_rate', key: 'valutazione_pregressa', label: 'Indice di Gradimento', type: 'Rating', required: false },
+        { id: 'f_nps', key: 'consiglieresti_piattaforma', label: 'Punteggio NPS (Consiglieresti il Servizio?)', type: 'Nps', required: false },
+        { id: 'f_otp', key: 'codice_sicurezza_otp', label: 'Codice di Verifica OTP (SMS)', type: 'Otp', required: true },
+        { id: 'f_sig', key: 'firma_digitale', label: 'Firma Grafica Autografa', type: 'Signature', required: true }
+      ];
+      renderFormBuilder();
+    }
+
+    function renderFormBuilder() {
+      // 1. Update Configured Fields List in Sidebar
+      const configList = document.getElementById('fields-config-list');
+      const countEl = document.getElementById('fields-count');
+      countEl.innerText = formFields.length;
+      configList.innerHTML = '';
+
+      formFields.forEach((field, index) => {
+        const item = document.createElement('div');
+        item.className = "flex items-center justify-between p-2 rounded-xl bg-slate-900/90 border border-slate-800 text-xs";
+        item.innerHTML = `
+          <div class="flex items-center gap-2 overflow-hidden">
+            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20">${field.type}</span>
+            <input type="text" value="${field.label}" onchange="updateFieldLabel(${index}, this.value)" class="bg-transparent text-slate-200 text-xs font-semibold focus:outline-none border-b border-transparent focus:border-sky-500 truncate w-36" />
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <button onclick="toggleRequired(${index})" title="Rendi obbligatorio" class="text-[10px] px-1.5 py-0.5 rounded font-bold ${field.required ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'text-slate-500 hover:text-slate-300'}">
+              ${field.required ? 'Obblig.' : 'Opz.'}
+            </button>
+            <button onclick="removeField(${index})" title="Rimuovi" class="text-rose-400 hover:text-rose-300 text-xs font-bold px-1">✕</button>
+          </div>
+        `;
+        configList.appendChild(item);
+      });
+
+      // 2. Render Live Interactive Form Controls
+      const previewForm = document.getElementById('live-rendered-form');
+      previewForm.innerHTML = '';
+
+      if (formFields.length === 0) {
+        previewForm.innerHTML = `<div class="p-8 text-center text-slate-500 border-2 border-dashed border-slate-800 rounded-xl text-xs">Nessun campo configurato. Clicca su uno dei 40+ componenti a sinistra per iniziare a comporre la form!</div>`;
+      }
+
+      formFields.forEach((field, index) => {
+        const group = document.createElement('div');
+        group.className = "space-y-1.5 p-3 rounded-xl bg-slate-950/40 border border-slate-800/60";
+
+        const labelHtml = `
+          <div class="flex items-center justify-between">
+            <label class="block text-xs font-semibold text-slate-300">
+              ${field.label} ${field.required ? '<span class="text-rose-400 font-bold">*</span>' : ''}
+            </label>
+            <span class="text-[10px] font-mono text-slate-500">${field.key} (${field.type})</span>
+          </div>
+        `;
+
+        let inputHtml = '';
+
+        switch (field.type) {
+          // --- Testo Standard ---
+          case 'Text':
+            inputHtml = `<input type="text" id="input-${field.key}" name="${field.key}" placeholder="Inserisci ${field.label}..." class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-sky-500 focus:outline-none" />`;
+            break;
+          case 'TextArea':
+            inputHtml = `<textarea id="input-${field.key}" name="${field.key}" rows="3" placeholder="Scrivi qui..." class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-sky-500 focus:outline-none"></textarea>`;
+            break;
+          case 'Email':
+            inputHtml = `<input type="email" id="input-${field.key}" name="${field.key}" placeholder="nome.cognome@dominio.it" class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-sky-500 focus:outline-none" />`;
+            break;
+          case 'Password':
+            inputHtml = `<input type="password" id="input-${field.key}" name="${field.key}" placeholder="••••••••••••" class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-sky-500 focus:outline-none" />`;
+            break;
+          case 'Phone':
+            inputHtml = `<input type="tel" id="input-${field.key}" name="${field.key}" placeholder="+39 340 1234567" class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-sky-500 focus:outline-none" />`;
+            break;
+          case 'Url':
+            inputHtml = `<input type="url" id="input-${field.key}" name="${field.key}" placeholder="https://www.tuosito.it" class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-sky-500 focus:outline-none" />`;
+            break;
+          case 'RichText':
+            inputHtml = `
+              <div class="border border-slate-800 rounded-xl overflow-hidden bg-slate-900">
+                <div class="flex items-center gap-2 p-1.5 bg-slate-950 border-b border-slate-800 text-xs text-slate-400">
+                  <button type="button" class="px-2 py-0.5 hover:bg-slate-800 rounded font-bold">B</button>
+                  <button type="button" class="px-2 py-0.5 hover:bg-slate-800 rounded italic">I</button>
+                  <button type="button" class="px-2 py-0.5 hover:bg-slate-800 rounded underline">U</button>
+                  <span class="text-slate-600">|</span>
+                  <button type="button" class="px-2 py-0.5 hover:bg-slate-800 rounded">Link</button>
+                  <button type="button" class="px-2 py-0.5 hover:bg-slate-800 rounded">Elenco</button>
+                </div>
+                <div contenteditable="true" class="p-3 text-xs text-slate-200 min-h-[70px] focus:outline-none">Inserisci testo formattato...</div>
+              </div>
+            `;
+            break;
+          case 'Markdown':
+            inputHtml = `
+              <div class="grid grid-cols-2 gap-2">
+                <textarea rows="3" placeholder="# Titolo Markdown\n- Elemento 1\n- Elemento 2" class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs font-mono text-white focus:border-sky-500 focus:outline-none"></textarea>
+                <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-xs text-slate-300">
+                  <div class="text-[10px] uppercase text-sky-400 font-bold mb-1">Live Preview</div>
+                  <div class="font-bold text-sm">Titolo Markdown</div>
+                  <ul class="list-disc pl-4 text-[11px] text-slate-400"><li>Elemento 1</li><li>Elemento 2</li></ul>
+                </div>
+              </div>
+            `;
+            break;
+
+          // --- Dati Personali, Finanze & Geo ---
+          case 'FiscalCode':
+            inputHtml = `
+              <div class="relative">
+                <input type="text" maxlength="16" placeholder="RSSMRA85M01H501Z" class="w-full uppercase font-mono tracking-widest px-3 py-2 bg-slate-900 border border-emerald-500/40 rounded-xl text-xs text-emerald-300 focus:border-emerald-400 focus:outline-none" />
+                <span class="absolute right-3 top-2.5 text-[10px] text-emerald-400 font-bold">✓ Regex IT</span>
+              </div>
+            `;
+            break;
+          case 'IBAN':
+            inputHtml = `
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs font-bold text-slate-400">IT</span>
+                <input type="text" placeholder="60 X 05428 11101 000000123456" class="w-full font-mono tracking-wider px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-sky-500 focus:outline-none" />
+              </div>
+            `;
+            break;
+          case 'Currency':
+            inputHtml = `
+              <div class="flex items-center gap-2">
+                <select class="px-2 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs font-bold text-sky-400 focus:outline-none">
+                  <option>EUR (€)</option>
+                  <option>USD ($)</option>
+                  <option>GBP (£)</option>
+                </select>
+                <input type="number" step="0.01" placeholder="2.500,00" class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs font-mono text-white focus:border-sky-500 focus:outline-none" />
+              </div>
+            `;
+            break;
+          case 'Location':
+            inputHtml = `
+              <div class="space-y-1.5">
+                <div class="relative">
+                  <input type="text" placeholder="Es. Via Garibaldi 12, Ancona (AN)" class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-sky-500 focus:outline-none" />
+                  <button type="button" class="absolute right-2 top-1.5 px-2 py-1 bg-sky-500/20 text-sky-400 hover:bg-sky-500/30 rounded-lg text-[10px] font-bold">Rileva GPS</button>
+                </div>
+                <div class="text-[10px] text-slate-500 font-mono flex items-center gap-2">
+                  <span>Lat: 43.6158</span><span>Lng: 13.5189</span><span class="text-emerald-400">● Coordinate GeoJSON</span>
+                </div>
+              </div>
+            `;
+            break;
+
+          // --- Numeri, Metriche & Rating ---
+          case 'Number':
+            inputHtml = `<input type="number" placeholder="42" class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-sky-500 focus:outline-none" />`;
+            break;
+          case 'Decimal':
+            inputHtml = `<input type="number" step="0.01" placeholder="1500.50" class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-sky-500 focus:outline-none" />`;
+            break;
+          case 'Percentage':
+            inputHtml = `
+              <div class="relative">
+                <input type="number" min="0" max="100" placeholder="75" class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-sky-500 focus:outline-none pr-8" />
+                <span class="absolute right-3 top-2 text-xs font-bold text-slate-400">%</span>
+              </div>
+            `;
+            break;
+          case 'Slider':
+            inputHtml = `
+              <div class="flex items-center gap-3">
+                <input type="range" min="0" max="100" value="70" oninput="document.getElementById('lbl-slider-${field.key}').innerText = this.value + '%'" class="w-full accent-sky-400 cursor-pointer" />
+                <span id="lbl-slider-${field.key}" class="text-xs font-bold text-sky-400 w-10 text-right">70%</span>
+              </div>
+            `;
+            break;
+          case 'Rating':
+            inputHtml = `
+              <div class="flex items-center gap-2 text-xl text-amber-400 cursor-pointer">
+                <span>★</span><span>★</span><span>★</span><span>★</span><span class="text-slate-600">★</span>
+                <span class="text-xs text-slate-400 font-semibold ml-2">(4 / 5 Stelle)</span>
+              </div>
+            `;
+            break;
+          case 'LikertScale':
+            inputHtml = `
+              <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                <div class="flex items-center justify-between text-[10px] text-slate-400 mb-2">
+                  <span>1 - Fortemente in disaccordo</span>
+                  <span>4 - Neutrale</span>
+                  <span>7 - Pienamente d'accordo</span>
+                </div>
+                <div class="flex items-center justify-between gap-1">
+                  ${[1, 2, 3, 4, 5, 6, 7].map(n => `
+                    <label class="flex flex-col items-center gap-1 cursor-pointer">
+                      <input type="radio" name="likert-${field.key}" value="${n}" ${n === 5 ? 'checked' : ''} class="accent-indigo-400" />
+                      <span class="text-[10px] text-slate-300 font-bold">${n}</span>
+                    </label>
+                  `).join('')}
+                </div>
+              </div>
+            `;
+            break;
+          case 'Nps':
+            inputHtml = `
+              <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
+                <div class="flex items-center justify-between text-[10px] mb-2 font-bold">
+                  <span class="text-rose-400">0 - Per nulla probabile (Detrattore)</span>
+                  <span class="text-emerald-400">10 - Estremamente probabile (Promotore)</span>
+                </div>
+                <div class="grid grid-cols-11 gap-1">
+                  ${[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => `
+                    <button type="button" class="py-1.5 rounded text-xs font-bold ${n >= 9 ? 'bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30' : n >= 7 ? 'bg-amber-500/20 text-amber-300 hover:bg-amber-500/30' : 'bg-rose-500/20 text-rose-300 hover:bg-rose-500/30'}">${n}</button>
+                  `).join('')}
+                </div>
+              </div>
+            `;
+            break;
+
+          // --- Date & Calendari ---
+          case 'Date':
+            inputHtml = `<input type="date" value="2026-11-06" class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-sky-500 focus:outline-none" />`;
+            break;
+          case 'Time':
+            inputHtml = `<input type="time" value="09:30" class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-sky-500 focus:outline-none" />`;
+            break;
+          case 'DateTime':
+            inputHtml = `<input type="datetime-local" value="2026-11-06T09:30" class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-sky-500 focus:outline-none" />`;
+            break;
+          case 'DateRange':
+            inputHtml = `
+              <div class="grid grid-cols-2 gap-2">
+                <input type="date" value="2026-11-01" class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-sky-500 focus:outline-none" />
+                <input type="date" value="2026-11-30" class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-sky-500 focus:outline-none" />
+              </div>
+            `;
+            break;
+
+          // --- Scelte & Selettori ---
+          case 'Select':
+            inputHtml = `
+              <select class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-sky-500 focus:outline-none">
+                <option>Seleziona un'opzione...</option>
+                <option selected>Opzione Principale A</option>
+                <option>Opzione Secondaria B</option>
+                <option>Altro / Specifica</option>
+              </select>
+            `;
+            break;
+          case 'MultiSelect':
+            inputHtml = `
+              <div class="bg-slate-900 p-2 border border-slate-800 rounded-xl space-y-1.5">
+                <div class="flex flex-wrap gap-1.5">
+                  <span class="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-lg bg-sky-500/20 text-sky-300 font-semibold">Backend .NET 9 <button type="button" class="text-sky-400 hover:text-white">✕</button></span>
+                  <span class="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-lg bg-sky-500/20 text-sky-300 font-semibold">Stateless <button type="button" class="text-sky-400 hover:text-white">✕</button></span>
+                  <span class="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-lg bg-indigo-500/20 text-indigo-300 font-semibold">PostgreSQL <button type="button" class="text-indigo-400 hover:text-white">✕</button></span>
+                </div>
+                <input type="text" placeholder="+ Digita e premi Invio..." class="w-full bg-transparent text-xs text-slate-300 focus:outline-none px-1" />
+              </div>
+            `;
+            break;
+          case 'CascadingSelect':
+            inputHtml = `
+              <div class="grid grid-cols-2 gap-2">
+                <select class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-sky-500 focus:outline-none">
+                  <option selected>Settore: Information Technology</option>
+                  <option>Settore: Finanza & Contabilità</option>
+                </select>
+                <select class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:border-sky-500 focus:outline-none">
+                  <option selected>Sottocategoria: Cloud Architecture</option>
+                  <option>Sottocategoria: Cybersecurity</option>
+                </select>
+              </div>
+            `;
+            break;
+          case 'Radio':
+            inputHtml = `
+              <div class="flex flex-wrap gap-4 text-xs text-slate-300">
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                  <input type="radio" name="radio-${field.key}" checked class="accent-sky-400" /> Prima Alternativa
+                </label>
+                <label class="flex items-center gap-1.5 cursor-pointer">
+                  <input type="radio" name="radio-${field.key}" class="accent-sky-400" /> Seconda Alternativa
+                </label>
+              </div>
+            `;
+            break;
+          case 'Checkbox':
+            inputHtml = `
+              <label class="flex items-center gap-2 cursor-pointer text-xs text-slate-300">
+                <input type="checkbox" checked class="w-4 h-4 rounded accent-sky-400" />
+                <span>Dichiaro di aver verificato i dati inseriti conformemente al regolamento</span>
+              </label>
+            `;
+            break;
+          case 'CheckboxGroup':
+            inputHtml = `
+              <div class="grid grid-cols-2 gap-2 text-xs text-slate-300">
+                <label class="flex items-center gap-2"><input type="checkbox" checked class="accent-sky-400" /> Notifiche Email</label>
+                <label class="flex items-center gap-2"><input type="checkbox" checked class="accent-sky-400" /> Notifiche SMS</label>
+                <label class="flex items-center gap-2"><input type="checkbox" class="accent-sky-400" /> Report Settimanale</label>
+                <label class="flex items-center gap-2"><input type="checkbox" class="accent-sky-400" /> Audit Log Eventi</label>
+              </div>
+            `;
+            break;
+          case 'Switch':
+            inputHtml = `
+              <label class="flex items-center gap-3 cursor-pointer">
+                <input type="checkbox" checked class="sr-only peer" />
+                <div class="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-sky-500 relative"></div>
+                <span class="text-xs text-slate-300 font-semibold">Attivazione Servizio Immediata</span>
+              </label>
+            `;
+            break;
+          case 'TagInput':
+            inputHtml = `
+              <div class="flex flex-wrap gap-1.5 p-2 bg-slate-900 border border-slate-800 rounded-xl">
+                <span class="text-[11px] px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-semibold">#urgent</span>
+                <span class="text-[11px] px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-semibold">#stateless</span>
+                <input type="text" placeholder="+ Aggiungi tag..." class="bg-transparent text-xs text-slate-300 focus:outline-none px-1" />
+              </div>
+            `;
+            break;
+
+          // --- Avanzati, Codici, Firma & Media ---
+          case 'ColorPicker':
+            inputHtml = `
+              <div class="flex items-center gap-3">
+                <input type="color" value="#38bdf8" class="w-9 h-9 rounded-xl border border-slate-800 bg-transparent cursor-pointer" />
+                <span class="text-xs font-mono font-bold text-sky-400">#38BDF8 (Sky Blue)</span>
+              </div>
+            `;
+            break;
+          case 'Signature':
+            inputHtml = `
+              <div class="space-y-1.5">
+                <canvas id="canvas-sig-${field.key}" width="400" height="110" class="w-full bg-slate-950 border border-dashed border-slate-700 rounded-xl cursor-crosshair touch-none"></canvas>
+                <div class="flex items-center justify-between text-[11px] text-slate-400">
+                  <span>Traccia la firma con mouse o touchscreen</span>
+                  <button type="button" onclick="clearCanvas('canvas-sig-${field.key}')" class="text-rose-400 hover:text-rose-300">Pulisci Tratto</button>
+                </div>
+              </div>
+            `;
+            break;
+          case 'ImageUpload':
+            inputHtml = `
+              <div class="border-2 border-dashed border-slate-800 rounded-xl p-4 text-center bg-slate-950/40 hover:border-sky-500/40 cursor-pointer">
+                <div class="text-xl mb-1">🖼️</div>
+                <div class="text-xs text-slate-300 font-semibold">Trascina o carica un'immagine (PNG, JPG, WebP)</div>
+                <div class="text-[10px] text-slate-500">Max 5 MB • Anteprima e calcolo SHA-256 automatico</div>
+              </div>
+            `;
+            break;
+          case 'File':
+            inputHtml = `<input type="file" class="w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-sky-500/20 file:text-sky-300 hover:file:bg-sky-500/30 cursor-pointer" />`;
+            break;
+          case 'AudioRecorder':
+            inputHtml = `
+              <div class="flex items-center justify-between p-3 bg-slate-900 border border-slate-800 rounded-xl">
+                <div class="flex items-center gap-3">
+                  <button type="button" class="w-8 h-8 rounded-full bg-rose-500 text-white flex items-center justify-center font-bold text-xs animate-pulse">●</button>
+                  <div>
+                    <div class="text-xs font-bold text-white">Registratore Vocale</div>
+                    <div class="text-[10px] text-slate-400">Durata: 00:14 / 02:00 • Qualità Studio</div>
+                  </div>
+                </div>
+                <span class="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Pronto per l'ascolto</span>
+              </div>
+            `;
+            break;
+          case 'Otp':
+            inputHtml = `
+              <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                  ${[4, 9, 2, 8, 1, 7].map((digit, i) => `
+                    <input type="text" maxlength="1" value="${digit}" class="w-10 h-11 text-center font-mono font-black text-lg bg-slate-900 border border-slate-700 rounded-xl text-sky-400 focus:border-sky-400 focus:outline-none" />
+                  `).join('')}
+                </div>
+                <div class="text-[10px] text-slate-500">Inserisci il codice a 6 cifre inviato via SMS</div>
+              </div>
+            `;
+            break;
+          case 'BarcodeQrCode':
+            inputHtml = `
+              <div class="flex items-center justify-between p-3 bg-slate-900 border border-slate-800 rounded-xl">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 bg-white rounded-lg p-1 flex items-center justify-center text-slate-900 font-mono text-xs font-bold">QR-PI</div>
+                  <div>
+                    <div class="text-xs font-mono font-bold text-white">QR-PI-STATELSS-2026</div>
+                    <div class="text-[10px] text-slate-400">Scanner Barcode 1D / QR Code 2D</div>
+                  </div>
+                </div>
+                <button type="button" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-bold">Apri Fotocamera</button>
+              </div>
+            `;
+            break;
+          case 'JsonEditor':
+            inputHtml = `
+              <div class="space-y-1 font-mono text-xs">
+                <textarea rows="4" class="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-emerald-400 focus:border-emerald-500 focus:outline-none leading-relaxed">{\n  "environment": "production",\n  "allow_delegation": true,\n  "max_budget_eur": 50000\n}</textarea>
+                <div class="flex justify-between text-[10px] text-slate-500"><span>Validazione JSON RFC 8259</span><span class="text-emerald-400 font-bold">✓ Sintassi Corretta</span></div>
+              </div>
+            `;
+            break;
+
+          // --- Dati Complessi & Sub-Form ---
+          case 'DataGrid':
+            inputHtml = `
+              <div class="space-y-2">
+                <table class="w-full text-left text-xs text-slate-300 border border-slate-800 rounded-xl overflow-hidden">
+                  <thead class="bg-slate-950 text-slate-400 text-[10px] uppercase font-bold">
+                    <tr><th class="p-2">Descrizione</th><th class="p-2">Q.tà</th><th class="p-2">Prezzo Unit.</th><th class="p-2"></th></tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-800/60 bg-slate-900">
+                    <tr><td class="p-2">Server Cloud Stateless</td><td class="p-2 font-mono">2</td><td class="p-2 font-mono">€ 450,00</td><td class="p-2 text-rose-400 cursor-pointer">✕</td></tr>
+                    <tr><td class="p-2">Licenza Low-Code Engine</td><td class="p-2 font-mono">1</td><td class="p-2 font-mono">€ 1.200,00</td><td class="p-2 text-rose-400 cursor-pointer">✕</td></tr>
+                  </tbody>
+                </table>
+                <button type="button" class="text-xs px-2.5 py-1 bg-cyan-500/10 text-cyan-300 hover:bg-cyan-500/20 border border-cyan-500/30 rounded-lg font-bold">+ Aggiungi Riga alla Tabella</button>
+              </div>
+            `;
+            break;
+          case 'RepeatableSection':
+            inputHtml = `
+              <div class="space-y-2">
+                <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl space-y-2">
+                  <div class="flex justify-between text-xs font-bold text-white"><span>Record #1: Componente Nucleo</span><span class="text-rose-400 cursor-pointer">Elimina</span></div>
+                  <div class="grid grid-cols-2 gap-2">
+                    <input type="text" placeholder="Nome & Cognome" value="Mario Rossi" class="px-2 py-1 bg-slate-950 border border-slate-800 rounded-lg text-xs text-white" />
+                    <input type="text" placeholder="Ruolo / Grado" value="Referente Tecnico" class="px-2 py-1 bg-slate-950 border border-slate-800 rounded-lg text-xs text-white" />
+                  </div>
+                </div>
+                <button type="button" class="text-xs px-2.5 py-1 bg-cyan-500/10 text-cyan-300 hover:bg-cyan-500/20 border border-cyan-500/30 rounded-lg font-bold">+ Aggiungi Altro Membro</button>
+              </div>
+            `;
+            break;
+
+          // --- Layout, Indicatori & Sicurezza ---
+          case 'SectionHeader':
+            inputHtml = `
+              <div class="pt-2 pb-1 border-b border-slate-700">
+                <h4 class="text-sm font-bold text-sky-400 tracking-wide uppercase">${field.label}</h4>
+              </div>
+            `;
+            break;
+          case 'InfoAlert':
+            inputHtml = `
+              <div class="p-3 bg-sky-950/40 border border-sky-500/40 rounded-xl text-xs text-sky-200 flex items-start gap-2">
+                <span class="text-sky-400 font-bold">ℹ</span>
+                <div>${field.label}: I dati comunicati sono trattati secondo i principi di minimizzazione e architettura stateless.</div>
+              </div>
+            `;
+            break;
+          case 'Divider':
+            inputHtml = `<hr class="border-slate-800 my-2" />`;
+            break;
+          case 'ProgressStep':
+            inputHtml = `
+              <div class="space-y-1.5">
+                <div class="flex justify-between text-[11px] text-slate-400 font-semibold"><span>Fase 2 di 4: Compilazione Dati</span><span>50%</span></div>
+                <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                  <div class="bg-sky-400 h-full w-1/2"></div>
+                </div>
+              </div>
+            `;
+            break;
+          case 'Captcha':
+            inputHtml = `
+              <div class="inline-flex items-center gap-3 p-3 bg-slate-950 border border-slate-800 rounded-xl text-xs">
+                <input type="checkbox" checked class="w-5 h-5 accent-emerald-500 rounded cursor-pointer" />
+                <span class="text-slate-200 font-semibold">Non sono un robot</span>
+                <span class="text-[10px] text-slate-500 border-l border-slate-800 pl-3">Verifica Sicurezza Superata</span>
+              </div>
+            `;
+            break;
+
+          default:
+            inputHtml = `<input type="text" placeholder="${field.label}..." class="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white" />`;
+            break;
+        }
+
+        // Layout elements don't need the top label duplicated
+        if (field.type === 'SectionHeader' || field.type === 'Divider' || field.type === 'InfoAlert') {
+          group.innerHTML = inputHtml;
+        } else {
+          group.innerHTML = labelHtml + inputHtml;
+        }
+
+        previewForm.appendChild(group);
+
+        // Init signature canvas event listeners if Signature field
+        if (field.type === 'Signature') {
+          setTimeout(() => initSignatureCanvas('canvas-sig-' + field.key), 50);
+        }
+      });
+
+      // 3. Update Database SQL Outputs
+      generateDatabaseSql();
+    }
+
+    // Add Field from 40+ library
+    function addField(type) {
+      const idx = formFields.length + 1;
+      const key = `campo_${type.toLowerCase()}_${idx}`;
+      const label = `${type} #${idx}`;
+      formFields.push({
+        id: 'f_' + Date.now(),
+        key: key,
+        label: label,
+        type: type,
+        required: false
+      });
+      renderFormBuilder();
+    }
+
+    function removeField(index) {
+      formFields.splice(index, 1);
+      renderFormBuilder();
+    }
+
+    function updateFieldLabel(index, newLabel) {
+      formFields[index].label = newLabel;
+      formFields[index].key = newLabel.toLowerCase().replace(/[^a-z0-9]/g, '_');
+      renderFormBuilder();
+    }
+
+    function toggleRequired(index) {
+      formFields[index].required = !formFields[index].required;
+      renderFormBuilder();
+    }
+
+    function setDialect(dialect) {
+      currentDialect = dialect;
+      document.querySelectorAll('.dialect-btn').forEach(btn => {
+        if (btn.dataset.dialect === dialect) {
+          btn.className = "dialect-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-sky-500 text-slate-950";
+        } else {
+          btn.className = "dialect-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-slate-400 hover:text-white";
+        }
+      });
+      generateDatabaseSql();
+    }
+
+    // Database DDL & Insert Generator
+    function generateDatabaseSql() {
+      const tableName = "istanze_personalizzate";
+      let createSql = `-- ================================================================\n`;
+      createSql += `-- Tabella generata da Pi.FormGenerator per: ${currentDialect}\n`;
+      createSql += `-- Totale colonne mappate: ${formFields.filter(f => !isLayoutOnly(f.type)).length + 3}\n`;
+      createSql += `-- ================================================================\n\n`;
+
+      const persistentFields = formFields.filter(f => !isLayoutOnly(f.type));
+
+      if (currentDialect === 'PostgreSql') {
+        createSql += `CREATE TABLE "${tableName}" (\n`;
+        createSql += `    "id" VARCHAR(64) PRIMARY KEY,\n`;
+        createSql += `    "submitted_by" VARCHAR(128) NOT NULL,\n`;
+        createSql += `    "submitted_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,\n`;
+        persistentFields.forEach((f, i) => {
+          const type = mapSqlType(f.type, 'PostgreSql');
+          createSql += `    "${f.key}" ${type} ${f.required ? 'NOT NULL' : 'NULL'}${i === persistentFields.length - 1 ? '' : ','}\n`;
+        });
+        createSql += `);`;
+      } else if (currentDialect === 'SqlServer') {
+        createSql += `CREATE TABLE [${tableName}] (\n`;
+        createSql += `    [id] NVARCHAR(64) PRIMARY KEY,\n`;
+        createSql += `    [submitted_by] NVARCHAR(128) NOT NULL,\n`;
+        createSql += `    [submitted_at] DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),\n`;
+        persistentFields.forEach((f, i) => {
+          const type = mapSqlType(f.type, 'SqlServer');
+          createSql += `    [${f.key}] ${type} ${f.required ? 'NOT NULL' : 'NULL'}${i === persistentFields.length - 1 ? '' : ','}\n`;
+        });
+        createSql += `);`;
+      } else if (currentDialect === 'MySql') {
+        createSql += `CREATE TABLE \`${tableName}\` (\n`;
+        createSql += `    \`id\` VARCHAR(64) PRIMARY KEY,\n`;
+        createSql += `    \`submitted_by\` VARCHAR(128) NOT NULL,\n`;
+        createSql += `    \`submitted_at\` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,\n`;
+        persistentFields.forEach((f, i) => {
+          const type = mapSqlType(f.type, 'MySql');
+          createSql += `    \`${f.key}\` ${type} ${f.required ? 'NOT NULL' : 'NULL'}${i === persistentFields.length - 1 ? '' : ','}\n`;
+        });
+        createSql += `);`;
+      } else { // Sqlite
+        createSql += `CREATE TABLE "${tableName}" (\n`;
+        createSql += `    "id" TEXT PRIMARY KEY,\n`;
+        createSql += `    "submitted_by" TEXT NOT NULL,\n`;
+        createSql += `    "submitted_at" TEXT NOT NULL,\n`;
+        persistentFields.forEach((f, i) => {
+          const type = mapSqlType(f.type, 'Sqlite');
+          createSql += `    "${f.key}" ${type} ${f.required ? 'NOT NULL' : 'NULL'}${i === persistentFields.length - 1 ? '' : ','}\n`;
+        });
+        createSql += `);`;
+      }
+
+      document.getElementById('code-create-table').innerText = createSql;
+
+      // Sample Insert
+      const cols = persistentFields.map(f => currentDialect === 'SqlServer' ? `[${f.key}]` : `"${f.key}"`).join(', ');
+      const vals = persistentFields.map(f => getSampleSqlValue(f, currentDialect)).join(', ');
+      const insertSql = `INSERT INTO ${currentDialect === 'SqlServer' ? '[' + tableName + ']' : '"' + tableName + '"'} (\n    ${currentDialect === 'SqlServer' ? '[id], [submitted_by], [submitted_at]' : '"id", "submitted_by", "submitted_at"'}${cols.length ? ', ' + cols : ''}\n)\nVALUES (\n    'sub_demo_01', 'mario.rossi', ${currentDialect === 'SqlServer' ? 'SYSUTCDATETIME()' : 'CURRENT_TIMESTAMP'}${vals.length ? ', ' + vals : ''}\n);`;
+
+      document.getElementById('code-insert-query').innerText = insertSql;
+    }
+
+    function isLayoutOnly(type) {
+      return type === 'SectionHeader' || type === 'InfoAlert' || type === 'Divider' || type === 'ProgressStep' || type === 'Captcha';
+    }
+
+    function mapSqlType(type, dialect) {
+      if (type === 'Number' || type === 'Slider' || type === 'Rating') {
+        return dialect === 'Sqlite' ? 'INTEGER' : 'BIGINT';
+      }
+      if (type === 'Decimal' || type === 'Percentage' || type === 'Currency') {
+        return dialect === 'Sqlite' ? 'REAL' : (dialect === 'PostgreSql' ? 'NUMERIC(18,2)' : 'DECIMAL(18,2)');
+      }
+      if (type === 'LikertScale' || type === 'Nps') {
+        return dialect === 'PostgreSql' ? 'SMALLINT' : (dialect === 'Sqlite' ? 'INTEGER' : 'TINYINT');
+      }
+      if (type === 'Date') return dialect === 'Sqlite' ? 'TEXT' : 'DATE';
+      if (type === 'Time') return dialect === 'Sqlite' ? 'TEXT' : (dialect === 'SqlServer' ? 'TIME(7)' : 'TIME');
+      if (type === 'DateTime') return dialect === 'Sqlite' ? 'TEXT' : (dialect === 'PostgreSql' ? 'TIMESTAMPTZ' : 'DATETIME2');
+      if (type === 'Checkbox' || type === 'Switch') {
+        return dialect === 'SqlServer' ? 'BIT' : (dialect === 'Sqlite' ? 'INTEGER' : 'BOOLEAN');
+      }
+      if (type === 'FiscalCode') return dialect === 'SqlServer' ? 'NVARCHAR(16)' : (dialect === 'Sqlite' ? 'TEXT' : 'VARCHAR(16)');
+      if (type === 'IBAN') return dialect === 'SqlServer' ? 'NVARCHAR(34)' : (dialect === 'Sqlite' ? 'TEXT' : 'VARCHAR(34)');
+      if (type === 'Otp') return dialect === 'SqlServer' ? 'NVARCHAR(8)' : (dialect === 'Sqlite' ? 'TEXT' : 'VARCHAR(8)');
+      if (type === 'ColorPicker') return dialect === 'SqlServer' ? 'NVARCHAR(16)' : (dialect === 'Sqlite' ? 'TEXT' : 'VARCHAR(16)');
+      if (type === 'BarcodeQrCode') return dialect === 'SqlServer' ? 'NVARCHAR(128)' : (dialect === 'Sqlite' ? 'TEXT' : 'VARCHAR(128)');
+      if (type === 'MultiSelect' || type === 'CheckboxGroup' || type === 'TagInput' || type === 'DateRange' || type === 'CascadingSelect' || type === 'DataGrid' || type === 'RepeatableSection' || type === 'JsonEditor' || type === 'Location') {
+        return dialect === 'PostgreSql' ? 'JSONB' : (dialect === 'MySql' ? 'JSON' : (dialect === 'SqlServer' ? 'NVARCHAR(MAX)' : 'TEXT'));
+      }
+      if (type === 'TextArea' || type === 'RichText' || type === 'Markdown' || type === 'Signature' || type === 'AudioRecorder') {
+        return dialect === 'SqlServer' ? 'NVARCHAR(MAX)' : 'TEXT';
+      }
+      return dialect === 'SqlServer' ? 'NVARCHAR(255)' : (dialect === 'Sqlite' ? 'TEXT' : 'VARCHAR(255)');
+    }
+
+    function getSampleSqlValue(field, dialect) {
+      const t = field.type;
+      if (t === 'Number') return '42';
+      if (t === 'Decimal') return '1500.50';
+      if (t === 'Currency') return '2450.00';
+      if (t === 'Percentage') return '75.0';
+      if (t === 'Slider') return '80';
+      if (t === 'Rating') return '5';
+      if (t === 'Nps') return '9';
+      if (t === 'LikertScale') return '5';
+      if (t === 'Checkbox' || t === 'Switch') return dialect === 'PostgreSql' || dialect === 'MySql' ? 'TRUE' : '1';
+      if (t === 'FiscalCode') return "'RSSMRA85M01H501Z'";
+      if (t === 'IBAN') return "'IT60X0542811101000000123456'";
+      if (t === 'Otp') return "'492817'";
+      if (t === 'ColorPicker') return "'#38BDF8'";
+      if (t === 'Date') return "'2026-11-06'";
+      if (t === 'Time') return "'09:30:00'";
+      if (t === 'DateTime') return "'2026-11-06 09:30:00'";
+      if (t === 'Signature') return "'data:image/png;base64,iVBORw...'";
+      if (t === 'JsonEditor') return "'{\"mode\":\"cloud\"}'";
+      if (t === 'Location') return "'{\"via\":\"Corso Garibaldi 12\", \"citta\":\"Ancona\", \"cap\":\"60121\"}'";
+      if (t === 'DataGrid') return "'[{\"item\":\"Server\", \"qta\":2}]'";
+      return `'Dato ${field.label}'`;
+    }
+
+    function validateAndSimulate() {
+      const fb = document.getElementById('form-validation-feedback');
+      fb.classList.remove('hidden');
+      fb.className = "p-3 rounded-xl text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
+      fb.innerHTML = `&check; Validazione Stateless superata con successo! I dati sono pronti per essere inseriti con la query generata nel tuo database <strong>${currentDialect}</strong>.`;
+    }
+
+    function copyToClipboard(elementId) {
+      const text = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(text);
+      alert('SQL copiato negli appunti!');
+    }
+
+    // Canvas drawing helper for signature
+    function initSignatureCanvas(id) {
+      const canvas = document.getElementById(id);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 2.5;
+      ctx.lineCap = 'round';
+
+      let drawing = false;
+
+      function getPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return { x: clientX - rect.left, y: clientY - rect.top };
+      }
+
+      function startDraw(e) {
+        drawing = true;
+        const pos = getPos(e);
+        ctx.beginPath();
+        ctx.moveTo(pos.x, pos.y);
+      }
+
+      function draw(e) {
+        if (!drawing) return;
+        const pos = getPos(e);
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke();
+      }
+
+      function stopDraw() { drawing = false; }
+
+      canvas.onmousedown = startDraw;
+      canvas.onmousemove = draw;
+      window.addEventListener('mouseup', stopDraw);
+
+      canvas.ontouchstart = (e) => { e.preventDefault(); startDraw(e); };
+      canvas.ontouchmove = (e) => { e.preventDefault(); draw(e); };
+      canvas.ontouchend = stopDraw;
+    }
+
+    function clearCanvas(id) {
+      const canvas = document.getElementById(id);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    // -------------------------------------------------------------
+    // WORKFLOW DESIGNER LIBERO A STATI
+    // -------------------------------------------------------------
+    let workflowSteps = [
+      { index: 0, title: 'Inoltro Richiesta', role: 'Richiedente', actions: ['Invia', 'Annulla'] },
+      { index: 1, title: 'Validazione Tecnica', role: 'Team Leader', actions: ['Approva', 'Richiedi Integrazioni', 'Rifiuta'] },
+      { index: 2, title: 'Approvazione Budget', role: 'CFO / Direzione', actions: ['Approva', 'Rifiuta'] },
+      { index: 3, title: 'Evasione & Conclusione', role: 'Ufficio Operativo', actions: ['Completa'] }
+    ];
+
+    let currentRunnerStep = 0;
+
+    function renderWorkflowDesigner() {
+      const container = document.getElementById('workflow-nodes-container');
+      container.innerHTML = '';
+
+      workflowSteps.forEach((step, idx) => {
+        const node = document.createElement('div');
+        node.id = `runner-node-${idx}`;
+        node.className = `p-4 rounded-xl border ${idx === currentRunnerStep ? 'border-sky-500 bg-sky-950/40 ring-1 ring-sky-500' : 'border-slate-800 bg-slate-900/60 opacity-60'} transition-all`;
+        node.innerHTML = `
+          <div class="flex items-center justify-between text-[10px] font-bold text-slate-400 mb-1">
+            <span>PASSO ${step.index}</span>
+            <button onclick="removeWorkflowStep(${idx})" class="text-rose-400 hover:text-rose-300">✕</button>
+          </div>
+          <input type="text" value="${step.title}" onchange="updateStepTitle(${idx}, this.value)" class="bg-transparent text-sm font-bold text-white w-full border-b border-transparent focus:border-indigo-500 focus:outline-none mb-1" />
+          <div class="text-[11px] text-indigo-400 font-semibold mb-2">Attore: ${step.role}</div>
+          <div class="flex flex-wrap gap-1">
+            ${step.actions.map(a => `<span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">${a}</span>`).join('')}
+          </div>
+        `;
+        container.appendChild(node);
+      });
+
+      updateWorkflowRunner();
+    }
+
+    function addWorkflowStep() {
+      const idx = workflowSteps.length;
+      workflowSteps.push({
+        index: idx,
+        title: `Nuovo Passo ${idx}`,
+        role: idx % 2 === 0 ? 'Responsabile Ufficio' : 'Commissione Valutazione',
+        actions: ['Approva', 'Rifiuta']
+      });
+      renderWorkflowDesigner();
+    }
+
+    function removeWorkflowStep(idx) {
+      if (workflowSteps.length <= 1) return;
+      workflowSteps.splice(idx, 1);
+      workflowSteps.forEach((s, i) => s.index = i);
+      if (currentRunnerStep >= workflowSteps.length) currentRunnerStep = workflowSteps.length - 1;
+      renderWorkflowDesigner();
+    }
+
+    function updateStepTitle(idx, val) {
+      workflowSteps[idx].title = val;
+      renderWorkflowDesigner();
+    }
+
+    function updateWorkflowRunner() {
+      const prompt = document.getElementById('wf-runner-prompt');
+      const actionsDiv = document.getElementById('wf-runner-actions');
+
+      if (currentRunnerStep >= workflowSteps.length) {
+        prompt.innerHTML = `<span class="text-emerald-400 font-bold">🏁 Flusso Concluso con Successo! Tutte le approvazioni sono state registrate.</span>`;
+        actionsDiv.innerHTML = `<button onclick="restartWorkflowRunner()" class="px-3 py-1.5 bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs rounded-xl">Avvia Nuova Istanza</button>`;
+        return;
+      }
+
+      const curStep = workflowSteps[currentRunnerStep];
+      prompt.innerHTML = `Stato Corrente: <span class="text-sky-400 font-bold">${curStep.title}</span> (In carico a: <strong class="text-indigo-300">${curStep.role}</strong>)`;
+      actionsDiv.innerHTML = '';
+
+      curStep.actions.forEach(act => {
+        const btn = document.createElement('button');
+        btn.className = `px-3 py-1.5 text-xs font-bold rounded-xl transition-all ${
+          act.includes('Rifiuta') || act.includes('Annulla') ? 'bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30' :
+          act.includes('Integrazioni') ? 'bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30' :
+          'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30'
+        }`;
+        btn.innerText = act;
+        btn.onclick = () => executeWorkflowAction(act, curStep);
+        actionsDiv.appendChild(btn);
+      });
+    }
+
+    function executeWorkflowAction(act, step) {
+      const log = document.getElementById('wf-runner-log');
+      const time = new Date().toLocaleTimeString();
+
+      if (act.includes('Rifiuta') || act.includes('Annulla')) {
+        log.innerHTML += `<div>[${time}] ❌ Azione <strong>${act}</strong> eseguita da <em>${step.role}</em>. Istanza respinta o annullata.</div>`;
+        currentRunnerStep = workflowSteps.length;
+      } else if (act.includes('Integrazioni')) {
+        log.innerHTML += `<div>[${time}] ⚠️ Azione <strong>${act}</strong>: Notifica inviata al Richiedente per chiarimenti.</div>`;
+      } else {
+        log.innerHTML += `<div>[${time}] &check; Passo <strong>${step.title}</strong> approvato da <em>${step.role}</em> via Pi.Workflow. Transizione al passo successivo.</div>`;
+        currentRunnerStep++;
+      }
+
+      renderWorkflowDesigner();
+    }
+
+    function restartWorkflowRunner() {
+      currentRunnerStep = 0;
+      document.getElementById('wf-runner-log').innerHTML = `<div class="text-slate-500">Log transizioni di stato...</div>`;
+      renderWorkflowDesigner();
+    }
+
+    // Bootstrap Initial State
+    renderFormBuilder();
+    renderWorkflowDesigner();
+  </script>
+</body>
+</html>

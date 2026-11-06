@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Pi.Common\Pi.Common.csproj" />
+    <ProjectReference Include="..\Pi.FormGenerator\Pi.FormGenerator.csproj" />
+    <ProjectReference Include="..\Pi.Workflow\Pi.Workflow.csproj" />
+    <ProjectReference Include="..\Pi.Documents\Pi.Documents.csproj" />
+    <ProjectReference Include="..\Pi.Identity\Pi.Identity.csproj" />
+    <ProjectReference Include="..\Pi.Integrations\Pi.Integrations.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,179 @@
+@baseUrl = http://localhost:5000
+
+### 1. Root Diagnostico (Stato dei Servizi e Moduli Attivi)
+GET {{baseUrl}}/
+Accept: application/json
+
+### ------------------------------------------------------------
+### PI.FORMGENERATOR (Form Dinamici & Campi)
+### ------------------------------------------------------------
+
+### 2. Recupera l'elenco dei Form disponibili
+GET {{baseUrl}}/api/forms
+Accept: application/json
+
+### 3. Recupera lo Schema e i Campi del Form precaricato (RICHIESTA_GENERICA)
+GET {{baseUrl}}/api/forms/RICHIESTA_GENERICA
+Accept: application/json
+
+### 4. Validazione Stateless di un Form con Dati NON Validi (verifica errori regex/obbligatorietà)
+POST {{baseUrl}}/api/forms/RICHIESTA_GENERICA/validate
+Content-Type: application/json
+
+{
+  "values": {
+    "tipologia_richiesta": "opzione_inesistente",
+    "motivazione": "corta"
+  }
+}
+
+### 5. Validazione Stateless di un Form con Dati VALIDI
+POST {{baseUrl}}/api/forms/RICHIESTA_GENERICA/validate
+Content-Type: application/json
+
+{
+  "values": {
+    "tipologia_richiesta": "richiesta_permesso",
+    "motivazione": "Richiesta permesso studio per esami universitari sessione estiva",
+    "data_decorrenza": "2026-06-15"
+  }
+}
+
+### 6. Compilazione e Salvataggio Form (Submission)
+POST {{baseUrl}}/api/forms/RICHIESTA_GENERICA/submissions
+Content-Type: application/json
+
+{
+  "submittedBy": "1003",
+  "values": {
+    "tipologia_richiesta": "richiesta_permesso",
+    "motivazione": "Richiesta permesso studio per esami universitari sessione estiva",
+    "data_decorrenza": "2026-06-15"
+  }
+}
+
+### ------------------------------------------------------------
+### PI.WORKFLOW (Macchina a Stati & Approvazioni)
+### ------------------------------------------------------------
+
+### 7. Valutazione Transizione Pura STATELESS (Zero-DB / Calcolo puro)
+POST {{baseUrl}}/api/workflow/evaluate-transition
+Content-Type: application/json
+
+{
+  "definition": {
+    "workflowCode": "WF_TEST",
+    "title": "Flusso Approvativo Test",
+    "steps": [
+      {
+        "stepIndex": 0,
+        "title": "Istruttoria",
+        "requiredRole": "Istruttore",
+        "allowedActions": ["Approva", "Rifiuta"]
+      },
+      {
+        "stepIndex": 1,
+        "title": "Firma Dirigente",
+        "requiredRole": "Dirigente",
+        "allowedActions": ["Approva", "Rifiuta", "RiportaIndietro"]
+      }
+    ]
+  },
+  "currentState": {
+    "currentStepIndex": 0,
+    "status": 0,
+    "history": []
+  },
+  "action": "Approva",
+  "actor": "1001",
+  "notes": "Istruttoria verificata con esito positivo"
+}
+
+### 8. Avvia un'istanza di Workflow gestita
+POST {{baseUrl}}/api/workflow/instances/start
+Content-Type: application/json
+
+{
+  "workflowCode": "WF_APPROVAZIONE_DUE_PASSI",
+  "createdBy": "1003"
+}
+
+### 9. Esegui Passo 1 (Approva il visto da parte dell'istruttore)
+# Sostituisci l'instanceId ottenuto dalla chiamata precedente
+POST {{baseUrl}}/api/workflow/instances/{{instanceId}}/execute-step
+Content-Type: application/json
+
+{
+  "action": "Approva",
+  "actor": "1001",
+  "notes": "Visto di conformità apposto"
+}
+
+### ------------------------------------------------------------
+### PI.IDENTITY (Risoluzione Dinamica Attori / Profilatura)
+### ------------------------------------------------------------
+
+### 10. Risolvi dinamicamente l'attore Dirigente per il dipendente '1003'
+POST {{baseUrl}}/api/identity/resolve-actor
+Content-Type: application/json
+
+{
+  "stepRequiredRole": "Dirigente",
+  "applicantMatricola": "1003"
+}
+
+### ------------------------------------------------------------
+### PI.DOCUMENTS (Gestione Pratiche, Note & Allegati)
+### ------------------------------------------------------------
+
+### 11. Crea una nuova istanza documentale
+POST {{baseUrl}}/api/documents
+Content-Type: application/json
+
+{
+  "documentTypeCode": "RICH_GEN",
+  "authorUser": "1003",
+  "subject": "Richiesta autorizzazione permesso studio 2026",
+  "notes": "Pratica urgente da sottoporre al dirigente"
+}
+
+### 12. Aggiungi un messaggio / chiarimento istruttorio
+POST {{baseUrl}}/api/documents/{{documentId}}/messages
+Content-Type: application/json
+
+{
+  "senderUser": "1001",
+  "text": "Si richiede di allegare la certificazione d'iscrizione all'ateneo."
+}
+
+### ------------------------------------------------------------
+### PI.INTEGRATIONS (Protocollo & Reportistica)
+### ------------------------------------------------------------
+
+### 13. Registra Protocollo Documentale (Mock Stateless)
+POST {{baseUrl}}/api/integrations/protocollo/registra
+Content-Type: application/json
+
+{
+  "documentId": "DOC-DEMO-001",
+  "documentTypeCode": "RICH_GEN",
+  "oggetto": "Istanza di richiesta generica pervenuto da matricola 1003",
+  "codiceFiscaleAutore": "VRDLGI90C03C222C",
+  "cognomeAutore": "Verdi",
+  "nomeAutore": "Luigi",
+  "codiceStruttura": "DIP_AMM"
+}
+
+### 14. Genera Report Documentale (PDF / CSV)
+POST {{baseUrl}}/api/integrations/reports/render
+Content-Type: application/json
+
+{
+  "reportName": "RiepilogoPratica",
+  "format": 0,
+  "parameters": {
+    "DocumentoId": "DOC-DEMO-001",
+    "Autore": "Luigi Verdi (1003)",
+    "Stato": "Approvato"
+  }
+}

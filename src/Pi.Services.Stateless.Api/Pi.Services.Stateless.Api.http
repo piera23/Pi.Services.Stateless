@@ -1,0 +1,6 @@
+@Pi.Services.Stateless.Api_HostAddress = http://localhost:5171
+
+GET {{Pi.Services.Stateless.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
